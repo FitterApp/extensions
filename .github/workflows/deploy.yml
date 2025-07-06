@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: '24.3.0'
 
-      - name: Install dependencies
+      - name: Build extensions
         run: scripts/build.sh
 
       - name: Show dist
