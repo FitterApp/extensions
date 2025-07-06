@@ -1,0 +1,14 @@
+{
+  "entrypoints": {
+    "default": {
+      "script": "macro-tracker.es.js",
+      "styles": "macro-tracker.css"
+    }
+  },
+  "name": "Macro Tracker",
+  "description": "A macro tracker extension",
+  "version": "1.0.0",
+  "author": "Fitter",
+  "icon": "https://fitterapp.app/favicon.ico",
+  "permissions": []
+}

@@ -1,0 +1,26 @@
+{
+  "entrypoints": {
+    "default": {
+      "script": "single-vote.es.js",
+      "styles": "votes.css"
+    },
+    "multi-vote": {
+      "script": "multi-vote.es.js",
+      "styles": "votes.css"
+    },
+    "pie-chart": {
+      "script": "pie-chart.es.js",
+      "styles": "votes.css"
+    },
+    "fan-rating": {
+      "script": "fan-rating.es.js",
+      "styles": "votes.css"
+    }
+  },
+  "name": "Votes",
+  "description": "A votes extension",
+  "version": "1.0.0",
+  "author": "Fitter",
+  "icon": "https://fitterapp.app/favicon.ico",
+  "permissions": []
+}

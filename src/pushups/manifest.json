@@ -1,0 +1,14 @@
+{
+  "entrypoints": {
+    "default": {
+      "script": "pushups.es.js",
+      "styles": "pushups.css"
+    }
+  },
+  "name": "Pushups",
+  "description": "A pushups extension",
+  "version": "1.0.0",
+  "author": "Fitter",
+  "icon": "https://fitterapp.app/favicon.ico",
+  "permissions": []
+}

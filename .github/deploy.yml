@@ -1,0 +1,35 @@
+name: "Deploy Extensions"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    # env:
+    #   CACHE_VERSION: "1-node20"
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.3.0'
+
+      - name: Install dependencies
+        run: scripts/build.sh
+
+      - name: Show dist
+        run: ls -la dist
+
+      # - name: Deploy Cloudflare Worker
+      #   uses: cloudflare/wrangler-action@v3
+      #   with:
+      #     apiToken: ${{ secrets.CLOUDFLARE_WORKERS_API_TOKEN }}
+      #     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      #     workingDirectory: "extensions"
+      #     command: deploy --env staging

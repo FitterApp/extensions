@@ -1,0 +1,40 @@
+import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import fs from 'node:fs'
+import path from 'node:path'
+
+const outDir = path.resolve(__dirname, '../../dist', 'auth-button')
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [
+    vue(),
+    {
+      name: 'copy-manifest',
+      closeBundle() {
+        const manifestPath = path.resolve(__dirname, 'manifest.json')
+        fs.copyFileSync(manifestPath, path.join(outDir, 'manifest.json'))
+      }
+    }
+  ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    },
+  },
+  build: {
+    lib: {
+      entry: {
+        'auth-button': fileURLToPath(new URL('./src/main.js', import.meta.url)),
+      },
+      formats: ['es'],
+      fileName: (format, entryName) => `${entryName}.es.js`,
+    },
+    outDir,
+  },
+
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('production'),
+  }
+})

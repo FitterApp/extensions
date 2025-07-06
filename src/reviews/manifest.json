@@ -1,0 +1,14 @@
+{
+  "entrypoints": {
+    "default": {
+      "script": "reviews.es.js",
+      "styles": "reviews.css"
+    }
+  },
+  "name": "Reviews",
+  "description": "A reviews extension",
+  "version": "1.0.0",
+  "author": "Fitter",
+  "icon": "https://fitterapp.app/favicon.ico",
+  "permissions": []
+}

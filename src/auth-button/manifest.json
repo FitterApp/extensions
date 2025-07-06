@@ -1,0 +1,17 @@
+{
+  "entrypoints": {
+    "default": {
+      "script": "auth-button.es.js",
+      "styles": "auth-button.css"
+    }
+  },
+  "name": "Login Button",
+  "description": "A button that logs the user in",
+  "version": "1.0.0",
+  "author": "Fitter",
+  "icon": "https://fitterapp.app/favicon.ico",
+  "permissions": [
+    "https://fitterapp.app/api/v1/auth/login",
+    "https://fitterapp.app/api/v1/auth/logout"
+  ]
+}
