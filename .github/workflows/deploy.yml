@@ -31,5 +31,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_WORKERS_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: "extensions"
           command: pages deploy ./dist --project-name=custom-extensions --branch=${{ github.ref_name }}
