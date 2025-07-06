@@ -3,9 +3,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import fs from 'node:fs'
 import path from 'node:path'
-import { getExtensionOutDir } from '../build-config.js'
 
-const outDir = getExtensionOutDir('reviews')
+const outDir = path.resolve(__dirname, '../../dist', 'reviews')
 
 // https://vite.dev/config/
 export default defineConfig({
