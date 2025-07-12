@@ -2,6 +2,7 @@
   "entrypoints": {
     "default": {
       "script": "pushups.es.js",
+      "dev": "src/pushups.ts",
       "styles": "pushups.css"
     }
   },

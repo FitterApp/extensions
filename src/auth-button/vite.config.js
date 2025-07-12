@@ -7,7 +7,11 @@ import path from 'node:path'
 const outDir = path.resolve(__dirname, '../../dist', 'auth-button')
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command, mode }) => {
+  // Check if we want HTTP-only mode based on mode
+  const isHttpOnly = mode === 'http'
+  
+  return {
   plugins: [
     vue(),
     {
@@ -23,6 +27,17 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    port: 5173,
+    host: true, // Listen on all addresses
+    cors: true, // Enable CORS for all origins
+    ...(isHttpOnly ? {} : {
+      https: {
+        key: fs.readFileSync('../../localhost+2-key.pem'),
+        cert: fs.readFileSync('../../localhost+2.pem'),
+      },
+    }),
+  },
   build: {
     lib: {
       entry: {
@@ -36,5 +51,6 @@ export default defineConfig({
 
   define: {
     'process.env.NODE_ENV': JSON.stringify('production'),
+  }
   }
 })
