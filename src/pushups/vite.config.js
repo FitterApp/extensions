@@ -8,6 +8,7 @@ const outDir = path.resolve(__dirname, '../../dist', 'pushups')
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/pushups/',
   plugins: [
     vue(),
     {
@@ -32,6 +33,16 @@ export default defineConfig({
       fileName: (format, entryName) => `${entryName}.es.js`,
     },
     outDir,
+  },
+
+  server: {
+    port: 5173,
+    host: true, // Listen on all addresses
+    cors: true, // Enable CORS for all origins
+    https: {
+      key: fs.readFileSync('../../localhost+2-key.pem'),
+      cert: fs.readFileSync('../../localhost+2.pem'),
+    },
   },
 
   define: {
