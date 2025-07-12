@@ -1,4 +1,3 @@
-import '@/assets/main.css'
 import SingleVote from './SingleVote.vue'
 import { createMountPair } from '@/lib/mount-manager';
 
