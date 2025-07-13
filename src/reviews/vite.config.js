@@ -12,45 +12,46 @@ export default defineConfig(({ command, mode }) => {
   const isHttpOnly = mode === 'http'
   
   return {
-  plugins: [
-    vue(),
-    {
-      name: 'copy-manifest',
-      closeBundle() {
-        const manifestPath = path.resolve(__dirname, 'manifest.json')
-        fs.copyFileSync(manifestPath, path.join(outDir, 'manifest.json'))
+    base: '/reviews/',
+    plugins: [
+      vue(),
+      {
+        name: 'copy-manifest',
+        closeBundle() {
+          const manifestPath = path.resolve(__dirname, 'manifest.json')
+          fs.copyFileSync(manifestPath, path.join(outDir, 'manifest.json'))
+        }
       }
-    }
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    },
-  },
-  server: {
-    port: 5173,
-    host: true, // Listen on all addresses
-    cors: true, // Enable CORS for all origins
-    ...(isHttpOnly ? {} : {
-      https: {
-        key: fs.readFileSync('../../localhost+2-key.pem'),
-        cert: fs.readFileSync('../../localhost+2.pem'),
+    ],
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url))
       },
-    }),
-  },
-  build: {
-    lib: {
-      entry: {
-        'reviews': fileURLToPath(new URL('./src/reviews.ts', import.meta.url)),
-      },
-      formats: ['es'],
-      fileName: (format, entryName) => `${entryName}.es.js`,
     },
-    outDir,
-  },
+    server: {
+      port: 5173,
+      host: true, // Listen on all addresses
+      cors: true, // Enable CORS for all origins
+      ...(isHttpOnly ? {} : {
+        https: {
+          key: fs.readFileSync('../../localhost+2-key.pem'),
+          cert: fs.readFileSync('../../localhost+2.pem'),
+        },
+      }),
+    },
+    build: {
+      lib: {
+        entry: {
+          'reviews': fileURLToPath(new URL('./src/reviews.ts', import.meta.url)),
+        },
+        formats: ['es'],
+        fileName: (format, entryName) => `${entryName}.es.js`,
+      },
+      outDir,
+    },
 
-  define: {
-    'process.env.NODE_ENV': JSON.stringify('production'),
-  }
+    define: {
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }
   }
 })

@@ -50,7 +50,7 @@ const activeTab = ref('challenge')
 
 .header h1 {
   margin-bottom: 1.5rem;
-  color: #8b5cf6;
+  color: #10b981;
 }
 
 .tab-navigation {
@@ -78,13 +78,13 @@ const activeTab = ref('challenge')
 }
 
 .tab-button.active {
-  background-color: #8b5cf6;
+  background-color: #10b981;
   color: white;
-  border-color: #8b5cf6;
+  border-color: #10b981;
 }
 
 .tab-button.active:hover {
-  background-color: #7c3aed;
+  background-color: #059669;
 }
 
 .content {

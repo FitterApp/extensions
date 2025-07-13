@@ -527,7 +527,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  background: linear-gradient(135deg, #10b981, #059669);
   border-radius: 15px;
   color: white;
 }
@@ -552,7 +552,7 @@ onUnmounted(() => {
 }
 
 .goal-button {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -564,12 +564,12 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
 }
 
 .goal-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
 }
 
 .goal-button:disabled {
@@ -591,7 +591,7 @@ onUnmounted(() => {
 }
 
 .nav-button {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   border: none;
   width: 50px;
@@ -604,12 +604,12 @@ onUnmounted(() => {
   justify-content: center;
   font-size: 1.2rem;
   font-weight: bold;
-  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 .nav-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
 }
 
 .nav-button:disabled {
@@ -700,7 +700,7 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+  background: linear-gradient(90deg, #10b981, #059669);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -715,13 +715,13 @@ onUnmounted(() => {
 }
 
 .day-card.today {
-  border: 2px solid #8b5cf6;
-  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+  border: 2px solid #10b981;
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
 }
 
 .day-card.today::before {
   opacity: 1;
-  background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+  background: linear-gradient(90deg, #10b981, #059669);
 }
 
 .day-card.complete {
@@ -764,7 +764,7 @@ onUnmounted(() => {
 }
 
 .today-badge {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
@@ -805,7 +805,7 @@ onUnmounted(() => {
   display: block;
   font-size: 2.5rem;
   font-weight: 700;
-  color: #8b5cf6;
+  color: #10b981;
   line-height: 1;
 }
 
@@ -832,7 +832,7 @@ onUnmounted(() => {
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+  background: linear-gradient(90deg, #10b981, #059669);
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 10px;
 }
@@ -849,7 +849,7 @@ onUnmounted(() => {
 }
 
 .log-button {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   border: none;
   padding: 1rem 1.5rem;
@@ -862,12 +862,12 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 .log-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
 }
 
 .log-button:disabled {
@@ -926,7 +926,7 @@ onUnmounted(() => {
 }
 
 .current-stats {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.1));
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
   padding: 1rem;
   border-radius: 15px;
   margin-top: 1rem;
@@ -943,7 +943,7 @@ onUnmounted(() => {
   display: block;
   font-size: 1.2rem;
   font-weight: 700;
-  color: #8b5cf6;
+  color: #10b981;
 }
 
 .modal-content {
@@ -977,9 +977,9 @@ onUnmounted(() => {
 .goal-input:focus,
 .pushups-input:focus {
   outline: none;
-  border-color: #8b5cf6;
+  border-color: #10b981;
   background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
 .modal-actions {
