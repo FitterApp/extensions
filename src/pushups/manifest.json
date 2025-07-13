@@ -1,11 +1,8 @@
 {
-  "entrypoints": {
-    "default": {
-      "script": "pushups.es.js",
-      "dev": "src/pushups.ts",
-      "styles": "pushups.css"
-    }
-  },
+  "entrypoints": [
+    "pushups"
+  ],
+  "styles": "pushups.css",
   "name": "Pushups",
   "description": "A pushups extension",
   "version": "1.0.0",

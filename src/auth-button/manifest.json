@@ -1,10 +1,8 @@
 {
-  "entrypoints": {
-    "default": {
-      "script": "auth-button.es.js",
-      "styles": "auth-button.css"
-    }
-  },
+  "entrypoints": [
+    "auth-button"
+  ],
+  "styles": "auth-button.css",
   "name": "Login Button",
   "description": "A button that logs the user in",
   "version": "1.0.0",

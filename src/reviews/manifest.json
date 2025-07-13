@@ -1,10 +1,8 @@
 {
-  "entrypoints": {
-    "default": {
-      "script": "reviews.es.js",
-      "styles": "reviews.css"
-    }
-  },
+  "entrypoints": [
+    "reviews"
+  ],
+  "styles": "reviews.css",
   "name": "Reviews",
   "description": "A reviews extension",
   "version": "1.0.0",

@@ -1,10 +1,8 @@
 {
-  "entrypoints": {
-    "default": {
-      "script": "macro-tracker.es.js",
-      "styles": "macro-tracker.css"
-    }
-  },
+  "entrypoints": [
+    "macro-tracker"
+  ],
+  "styles": "macro-tracker.css",
   "name": "Macro Tracker",
   "description": "A macro tracker extension",
   "version": "1.0.0",

@@ -1,16 +1,5 @@
-import { createApp } from 'vue'
 import Reviews from './Reviews.vue'
+import { createMountPair } from './lib/mount-manager';
 
-let app = null
-
-export function mount(el, mvtSdk) {
-  app = createApp(Reviews)
-  app.provide('mvt', mvtSdk) // Inject SDK into Vue app
-  app.mount(el)
-}
-
-export function unmount() {
-  app.unmount()
-  app = null
-}
+export const { mount, unmount } = createMountPair(Reviews);
 
