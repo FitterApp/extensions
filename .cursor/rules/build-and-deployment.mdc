@@ -5,7 +5,7 @@ alwaysApply: false
 ---
 # Build and Deployment Patterns
 
-All extensions follow the same build and deployment patterns.
+All extensions follow the same build and deployment patterns. This process works with the entry points (see [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc)), vite configs (see [vite-configuration.mdc](mdc:.cursor/rules/vite-configuration.mdc)), and manifests (see [manifest-patterns.mdc](mdc:.cursor/rules/manifest-patterns.mdc)).
 
 ## Build Scripts
 Each extension has standard npm scripts in [package.json](mdc:package.json):
@@ -30,7 +30,7 @@ The main build script is [scripts/build.sh](mdc:scripts/build.sh) which:
 ## Build Output
 All extensions output to `dist/{extension-name}/`:
 - Compiled JavaScript files (.es.js)
-- Copied manifest.json
+- Copied manifest.json (see [manifest-patterns.mdc](mdc:.cursor/rules/manifest-patterns.mdc))
 - CSS files (if any)
 
 ## Development Server
@@ -39,11 +39,17 @@ All extensions output to `dist/{extension-name}/`:
 - CORS enabled for all origins
 - HTTP-only mode available with `--mode http`
 
+## Integration with Other Components
+- **Entry Points**: Builds [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc) files into .es.js
+- **Vite Configs**: Uses [vite-configuration.mdc](mdc:.cursor/rules/vite-configuration.mdc) settings
+- **Manifests**: Copies [manifest-patterns.mdc](mdc:.cursor/rules/manifest-patterns.mdc) to dist/
+- **Structure**: Follows [extensions-structure.mdc](mdc:.cursor/rules/extensions-structure.mdc) patterns
+
 ## Validation
 Use [scripts/validate-extensions.js](mdc:scripts/validate-extensions.js) to check:
-- Required files exist
+- Required files exist (see [extensions-structure.mdc](mdc:.cursor/rules/extensions-structure.mdc))
 - Package.json has build script
-- Manifest.json has correct entrypoints
+- Manifest.json has correct entrypoints (see [manifest-patterns.mdc](mdc:.cursor/rules/manifest-patterns.mdc))
 - Extension structure is valid
 
 ## Common Build Commands
@@ -61,8 +67,14 @@ Use [scripts/validate-extensions.js](mdc:scripts/validate-extensions.js) to chec
 npm run serve
 ```
 
-## Common Issues
+## Common Issues (see [common-issues.mdc](mdc:.cursor/rules/common-issues.mdc) for detailed solutions)
 - Must run npm install in each extension directory
 - Build output goes to dist/{extension-name}/
 - Manifest.json is automatically copied during build
 - All extensions use the same Vite configuration pattern
+
+## When Working With Build Process
+- **Creating new extension**: Follow [extensions-structure.mdc](mdc:.cursor/rules/extensions-structure.mdc) and build patterns
+- **Debugging build issues**: Check [common-issues.mdc](mdc:.cursor/rules/common-issues.mdc) for build problems
+- **Entry point changes**: Ensure [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc) files are properly configured
+- **Vite config updates**: Coordinate with [vite-configuration.mdc](mdc:.cursor/rules/vite-configuration.mdc) settings

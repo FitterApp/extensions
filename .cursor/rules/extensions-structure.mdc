@@ -14,7 +14,7 @@ This is a multi-extension Vue.js project where each extension in `src/` is indep
 - Scripts: [scripts/](mdc:scripts/) - Build and validation utilities
 
 ## Extension Structure Pattern
-Each extension follows this structure:
+Each extension follows this structure (see [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc) for entry point details):
 ```
 extension-name/
 ├── src/
@@ -26,9 +26,9 @@ extension-name/
 │   │   ├── main.css                 # Main styles
 │   │   └── base.css                 # Base styles
 │   └── components/                  # Vue components
-├── manifest.json                    # Extension metadata
+├── manifest.json                    # Extension metadata (see [manifest-patterns.mdc](mdc:.cursor/rules/manifest-patterns.mdc))
 ├── package.json                     # Dependencies
-└── vite.config.js                   # Build config
+└── vite.config.js                   # Build config (see [vite-configuration.mdc](mdc:.cursor/rules/vite-configuration.mdc))
 ```
 
 ## Key Files to Check
@@ -36,10 +36,17 @@ extension-name/
 - [src/macro-tracker/](mdc:src/macro-tracker/) - Macro tracking extension  
 - [src/pushups/](mdc:src/pushups/) - Pushup challenge extension
 - [src/reviews/](mdc:src/reviews/) - Reviews extension
-- [src/votes/](mdc:src/votes/) - Voting extensions (multiple entry points)
+- [src/votes/](mdc:src/votes/) - Voting extensions (multiple entry points, see [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc))
 
 ## Common Patterns
-- Entry points always export `{ mount, unmount }` using `createMountPair`
-- Vite configs use extension name in base path and output directory
+- Entry points always export `{ mount, unmount }` using `createMountPair` (see [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc))
+- Vite configs use extension name in base path and output directory (see [vite-configuration.mdc](mdc:.cursor/rules/vite-configuration.mdc))
 - CSS files go in `src/assets/main.css` and `src/assets/base.css`
 - All extensions use Vue 3 + Vite + TypeScript
+- Build process follows patterns in [build-and-deployment.mdc](mdc:.cursor/rules/build-and-deployment.mdc)
+
+## When Working With Extensions
+- **Creating new extension**: Follow structure above and check [manifest-patterns.mdc](mdc:.cursor/rules/manifest-patterns.mdc)
+- **Debugging issues**: See [common-issues.mdc](mdc:.cursor/rules/common-issues.mdc) for solutions
+- **Building extensions**: Use patterns from [build-and-deployment.mdc](mdc:.cursor/rules/build-and-deployment.mdc)
+- **Configuring Vite**: Reference [vite-configuration.mdc](mdc:.cursor/rules/vite-configuration.mdc)

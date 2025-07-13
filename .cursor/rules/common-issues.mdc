@@ -5,27 +5,27 @@ alwaysApply: false
 ---
 # Common Issues and Solutions
 
-This document covers common problems and their solutions when working with extensions.
+This document covers common problems and their solutions when working with extensions. These issues relate to the entry points (see [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc)), vite configs (see [vite-configuration.mdc](mdc:.cursor/rules/vite-configuration.mdc)), manifests (see [manifest-patterns.mdc](mdc:.cursor/rules/manifest-patterns.mdc)), and build process (see [build-and-deployment.mdc](mdc:.cursor/rules/build-and-deployment.mdc)).
 
 ## Vite Configuration Issues
 
 ### Issue: Entry point file doesn't exist
 **Error**: `Entry module "src/extension-name.ts" not found`
-**Solution**: Ensure the entry point file exists in src/ directory and matches the vite.config.js entry
+**Solution**: Ensure the entry point file exists in src/ directory and matches the vite.config.js entry (see [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc))
 
 ### Issue: Extension name mismatch
 **Error**: Build fails or extension doesn't load
 **Solution**: Check that extension name is consistent across:
-- Folder name
-- Vite config base path
-- Manifest entrypoints
-- Entry point filename
+- Folder name (see [extensions-structure.mdc](mdc:.cursor/rules/extensions-structure.mdc))
+- Vite config base path (see [vite-configuration.mdc](mdc:.cursor/rules/vite-configuration.mdc))
+- Manifest entrypoints (see [manifest-patterns.mdc](mdc:.cursor/rules/manifest-patterns.mdc))
+- Entry point filename (see [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc))
 
 ## Manifest Issues
 
 ### Issue: Entrypoints don't match actual files
 **Error**: Extension fails to load
-**Solution**: Ensure manifest.json entrypoints match actual .ts files in src/
+**Solution**: Ensure manifest.json entrypoints match actual .ts files in src/ (see [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc))
 
 ### Issue: Missing manifest.json
 **Error**: Extension has no metadata
@@ -35,33 +35,33 @@ This document covers common problems and their solutions when working with exten
 
 ### Issue: Import path incorrect
 **Error**: `Cannot find module './lib/mount-manager'`
-**Solution**: Use relative import `'./lib/mount-manager'` not `'@/lib/mount-manager'`
+**Solution**: Use relative import `'./lib/mount-manager'` not `'@/lib/mount-manager'` (see [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc))
 
 ### Issue: Missing mount/unmount exports
 **Error**: Extension doesn't mount properly
-**Solution**: Ensure entry point exports exactly `{ mount, unmount }`
+**Solution**: Ensure entry point exports exactly `{ mount, unmount }` (see [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc))
 
 ## Build Issues
 
 ### Issue: Dependencies not installed
 **Error**: `Cannot find module 'vue'`
-**Solution**: Run `npm install` in the extension directory
+**Solution**: Run `npm install` in the extension directory (see [build-and-deployment.mdc](mdc:.cursor/rules/build-and-deployment.mdc))
 
 ### Issue: Build output directory issues
 **Error**: Files not in expected location
-**Solution**: Check vite.config.js outDir path matches extension name
+**Solution**: Check vite.config.js outDir path matches extension name (see [vite-configuration.mdc](mdc:.cursor/rules/vite-configuration.mdc))
 
 ## CSS Issues
 
 ### Issue: Styles not loading
 **Error**: Extension appears unstyled
-**Solution**: Ensure CSS files are in src/assets/main.css and imported in entry point
+**Solution**: Ensure CSS files are in src/assets/main.css and imported in entry point (see [extensions-structure.mdc](mdc:.cursor/rules/extensions-structure.mdc))
 
 ## Votes Extension Specific Issues
 
 ### Issue: Multiple entry points not working
 **Error**: Only some vote components load
-**Solution**: Check that all entry points in [src/votes/vite.config.js](mdc:src/votes/vite.config.js) match actual files
+**Solution**: Check that all entry points in [src/votes/vite.config.js](mdc:src/votes/vite.config.js) match actual files (see [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc))
 
 ## Validation
 
@@ -73,8 +73,15 @@ node scripts/validate-extensions.js
 ## Debugging Tips
 
 1. Check file paths are correct (case-sensitive)
-2. Verify all required files exist
-3. Ensure extension names are consistent
+2. Verify all required files exist (see [extensions-structure.mdc](mdc:.cursor/rules/extensions-structure.mdc))
+3. Ensure extension names are consistent across all components
 4. Test with `npm run dev` in extension directory
 5. Check browser console for errors
-6. Verify manifest.json is copied to dist/
+6. Verify manifest.json is copied to dist/ (see [build-and-deployment.mdc](mdc:.cursor/rules/build-and-deployment.mdc))
+
+## Related Documentation
+- **Structure issues**: See [extensions-structure.mdc](mdc:.cursor/rules/extensions-structure.mdc)
+- **Entry point problems**: See [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc)
+- **Vite config issues**: See [vite-configuration.mdc](mdc:.cursor/rules/vite-configuration.mdc)
+- **Manifest problems**: See [manifest-patterns.mdc](mdc:.cursor/rules/manifest-patterns.mdc)
+- **Build process**: See [build-and-deployment.mdc](mdc:.cursor/rules/build-and-deployment.mdc)
