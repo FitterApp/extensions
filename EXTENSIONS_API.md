@@ -9,14 +9,19 @@ This document describes the API endpoints for querying and storing extension dat
 - [Authentication](#authentication)
 - [Storing Extension Data](#storing-extension-data)
 - [Querying Extension Data](#querying-extension-data)
+- [Updating Extension Data](#updating-extension-data)
+- [Deleting Extension Data](#deleting-extension-data)
 - [Parameters Reference](#parameters-reference)
 - [Example Requests](#example-requests)
+- [Data Model](#data-model)
 
 ---
 
 ## Overview
 
 The Extensions API allows custom extensions to store and retrieve data associated with users (subscribers) and apps. Data is stored as key-value pairs and can be queried with flexible filters, aggregation, and grouping options.
+
+The API is implemented using the `ExtensionData` model and `ExtensionDataController` which provides CRUD operations for extension data.
 
 ---
 
@@ -92,7 +97,7 @@ GET /extension_data/:extension_slug?key=<key>&[query params]
 - `group_by` (string, optional): Field to group results by.
 - `order` (string/object, optional): Sorting options.
 - `limit` (integer, optional): Max number of results (default: 50, max: 100).
-- `only_user_data` (boolean, optional): If true, only returns data for the current user.
+- `member_only` (boolean, optional): If true, only returns data for the current user.
 
 #### Example
 
@@ -118,6 +123,77 @@ GET /extension_data/votes?key=upvote&group_by=subscriber_id&aggregate=count
 
 ---
 
+## Updating Extension Data
+
+### Endpoint
+
+```
+PUT /extension_data/:extension_slug
+```
+
+- **:extension_slug**: The unique identifier for your extension.
+
+### Request Body
+
+```
+{
+  "id": "<tracked_id>",
+  "value": <new_value>
+}
+```
+
+#### Example
+
+```
+PUT /extension_data/macro-tracker
+{
+  "id": "tracked_123",
+  "value": { "protein": 35, "carbs": 45, "fat": 12 }
+}
+```
+
+#### Response
+
+```
+{
+  "success": true
+}
+```
+
+---
+
+## Deleting Extension Data
+
+### Endpoint
+
+```
+DELETE /extension_data/:extension_slug
+```
+
+- **:extension_slug**: The unique identifier for your extension.
+
+### Query Parameters
+
+- `key` (string, required): The key to delete records for.
+- `tracked_id` (string, optional): Specific tracked ID to delete.
+- `filter` (object, optional): Filter to apply before deletion.
+
+#### Example
+
+```
+DELETE /extension_data/macro-tracker?key=nutrition&tracked_id=tracked_123
+```
+
+#### Response
+
+```
+{
+  "success": true
+}
+```
+
+---
+
 ## Parameters Reference
 
 ### Filter
@@ -126,12 +202,12 @@ GET /extension_data/votes?key=upvote&group_by=subscriber_id&aggregate=count
 - `gt`: Greater than
 - `lt`: Less than
 - `contains`: Substring match
-- `tracked_after`: Only records tracked after this datetime
-- `tracked_before`: Only records tracked before this datetime
+- `after`: Only records tracked after this datetime
+- `before`: Only records tracked before this datetime
 
 ### Aggregate
-- String: `sum`, `avg`, `count`
-- Object: `{ type: "sum"|"avg"|"count", on: "value"|"value->>'field'" }`
+- String: `sum`, `avg`, `max`, `min`, `count`
+- Object: `{ type: "sum"|"avg"|"max"|"min"|"count", on: "value"|"value->>'field'" }`
 
 ### Aggregate Filter
 - `eq`, `gt`, `lt` (applied to aggregation result)
@@ -142,6 +218,38 @@ GET /extension_data/votes?key=upvote&group_by=subscriber_id&aggregate=count
 ### Order
 - String: `ASC` or `DESC` (by value)
 - Object: `{ by: "created_at"|"value", dir: "ASC"|"DESC" }`
+
+---
+
+## Data Model
+
+The API is built on the `ExtensionData` model with the following structure:
+
+### Database Schema
+- `extension_slug`: The extension identifier
+- `account_app_id`: Associated app
+- `subscriber_id`: Associated subscriber
+- `key`: Data key
+- `value`: Data value (JSON)
+- `tracked_at`: Timestamp when data was tracked
+- `tracked_id`: Unique identifier for the record
+
+### Valid Aggregates
+- `sum`: Sum of numeric values
+- `avg`: Average of numeric values
+- `max`: Maximum numeric value
+- `min`: Minimum numeric value
+- `count`: Count of records
+
+### Groupable Fields
+- `day`: Group by date
+- `subscriber_id`: Group by subscriber
+- `key`: Group by key
+- `value`: Group by value
+- JSON paths: `value->>'field'`
+
+### JSON Path Pattern
+Valid JSON paths follow the pattern: `value->>'field_name'`
 
 ---
 
@@ -187,7 +295,23 @@ GET /extension_data/votes?key=upvote&aggregate=count&group_by=subscriber_id
 ### Query with Filters
 
 ```
-GET /extension_data/macro-tracker?key=nutrition&filter[gt]=20&filter[tracked_after]=2024-06-01
+GET /extension_data/macro-tracker?key=nutrition&filter[gt]=20&filter[after]=2024-06-01
+```
+
+### Update a Specific Record
+
+```
+PUT /extension_data/macro-tracker
+{
+  "id": "tracked_123",
+  "value": { "protein": 35, "carbs": 45, "fat": 12 }
+}
+```
+
+### Delete Records
+
+```
+DELETE /extension_data/macro-tracker?key=nutrition&tracked_id=tracked_123
 ```
 
 ### Advanced: Filter by a Value Attribute (JSON Path)
@@ -230,4 +354,6 @@ GET /extension_data/macro-tracker?key=nutrition&filter[on]=value->>'carbs'&filte
 ## Notes
 - All endpoints return `{ "success": true, ... }` on success.
 - Errors will return `{ "success": false, "message": "..." }`.
-- For more advanced queries, use the `filter`, `aggregate`, and `group_by` parameters as described above. 
+- For more advanced queries, use the `filter`, `aggregate`, and `group_by` parameters as described above.
+- The API supports JSON path queries for nested object values.
+- Member information is included when grouping by `subscriber_id` or when no aggregation is used. 

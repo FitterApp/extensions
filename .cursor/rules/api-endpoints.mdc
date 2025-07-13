@@ -1,0 +1,151 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Extension Data API Endpoints
+
+The Extensions API provides CRUD operations for extension data through the `ExtensionDataController`. All endpoints are RESTful and follow consistent patterns.
+
+## Base URL Pattern
+All endpoints follow the pattern: `/extension_data/:extension_slug`
+
+## Available Endpoints
+
+### 1. Store Data (CREATE)
+```
+POST /extension_data/:extension_slug
+```
+- **Purpose**: Store new extension data
+- **Body**: `{ "data": { "key": "...", "value": "...", "created_at": "..." } }`
+- **Response**: `{ "success": true }`
+- **Controller**: `ExtensionDataController#create`
+- **Model Method**: `ExtensionData.store()`
+
+### 2. Query Data (READ)
+```
+GET /extension_data/:extension_slug?key=<key>&[query params]
+```
+- **Purpose**: Retrieve and filter extension data
+- **Required**: `key` parameter
+- **Optional**: `filter`, `aggregate`, `group_by`, `order`, `limit`, `member_only`
+- **Response**: `{ "success": true, "results": [...] }`
+- **Controller**: `ExtensionDataController#index`
+- **Model Method**: `ExtensionData.run_query()`
+
+### 3. Update Data (UPDATE)
+```
+PUT /extension_data/:extension_slug
+```
+- **Purpose**: Update existing extension data
+- **Body**: `{ "id": "<tracked_id>", "value": "<new_value>" }`
+- **Response**: `{ "success": true }`
+- **Controller**: `ExtensionDataController#update`
+- **Model Method**: Direct ActiveRecord update
+
+### 4. Delete Data (DELETE)
+```
+DELETE /extension_data/:extension_slug
+```
+- **Purpose**: Delete extension data
+- **Query Params**: `key` (required), `tracked_id` (optional), `filter` (optional)
+- **Response**: `{ "success": true }`
+- **Controller**: `ExtensionDataController#destroy`
+- **Model Method**: `ExtensionData.delete_by_query()`
+
+## Route Configuration
+Routes are defined in [routes.rb](mdc:routes.rb):
+```ruby
+get "/extension_data/:extension_slug", to: "extension_data#index"
+post "/extension_data/:extension_slug", to: "extension_data#create"
+delete "/extension_data/:extension_slug", to: "extension_data#destroy"
+put "/extension_data/:extension_slug", to: "extension_data#update"
+```
+
+## Controller Implementation
+The API is implemented in [extension_data_controller.rb](mdc:extension_data_controller.rb) with these key methods:
+- `index`: Query data with filters and aggregation
+- `create`: Store new data points
+- `update`: Update existing records
+- `destroy`: Delete records with filters
+
+## Model Implementation
+The data model is defined in [models/extension_data.rb](mdc:models/extension_data.rb) with these key methods:
+- `store()`: Store new data points
+- `run_query()`: Query data with advanced filtering
+- `delete_by_query()`: Delete records with filters
+
+## Common Usage Patterns
+
+### Storing Data
+```javascript
+// Store single record
+await fetch('/extension_data/pushups', {
+  method: 'POST',
+  body: JSON.stringify({
+    data: { key: 'daily_pushups', value: 25 }
+  })
+})
+
+// Store multiple records
+await fetch('/extension_data/pushups', {
+  method: 'POST',
+  body: JSON.stringify({
+    data: [
+      { key: 'daily_pushups', value: 25 },
+      { key: 'weekly_total', value: 150 }
+    ]
+  })
+})
+```
+
+### Querying Data
+```javascript
+// Basic query
+const response = await fetch('/extension_data/pushups?key=daily_pushups')
+
+// With aggregation
+const response = await fetch('/extension_data/pushups?key=daily_pushups&aggregate=sum&group_by=day')
+
+// With filters
+const response = await fetch('/extension_data/pushups?key=daily_pushups&filter[gt]=20&filter[after]=2024-01-01')
+```
+
+### Updating Data
+```javascript
+await fetch('/extension_data/pushups', {
+  method: 'PUT',
+  body: JSON.stringify({
+    id: 'tracked_123',
+    value: 30
+  })
+})
+```
+
+### Deleting Data
+```javascript
+// Delete specific record
+await fetch('/extension_data/pushups?key=daily_pushups&tracked_id=tracked_123', {
+  method: 'DELETE'
+})
+
+// Delete with filter
+await fetch('/extension_data/pushups?key=daily_pushups&filter[before]=2024-01-01', {
+  method: 'DELETE'
+})
+```
+
+## Error Handling
+All endpoints return consistent error responses:
+```json
+{
+  "success": false,
+  "message": "Error description"
+}
+```
+
+Common error scenarios:
+- Missing required parameters
+- Invalid JSON in request body
+- Database constraint violations
+- Invalid query parameters

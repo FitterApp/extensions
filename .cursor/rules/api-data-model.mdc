@@ -1,0 +1,278 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Extension Data Model
+
+The Extension Data API is built on the `ExtensionData` ActiveRecord model which provides the data layer for storing and querying extension data.
+
+## Database Schema
+
+### Core Fields
+- **`extension_slug`** (string): Unique identifier for the extension (e.g., 'pushups', 'macro-tracker')
+- **`account_app_id`** (integer): Associated app (foreign key)
+- **`subscriber_id`** (integer): Associated subscriber (foreign key)
+- **`key`** (string): Data key for categorization
+- **`value`** (json): Data value (flexible JSON structure)
+- **`tracked_at`** (datetime): Timestamp when data was recorded
+- **`tracked_id`** (string): Unique identifier for the record
+
+### Relationships
+```ruby
+belongs_to :subscriber
+belongs_to :account_app
+```
+
+### Validations
+```ruby
+validates :extension_slug, presence: true
+validates :key, presence: true
+validates :value, presence: true
+```
+
+## Model Constants
+
+### Valid Aggregates
+```ruby
+VALID_AGGREGATES = ["sum", "avg", "max", "min", "count"]
+```
+
+### Groupable Fields
+```ruby
+GROUPABLE_FIELDS = ["day", "subscriber_id", "key", "value"]
+```
+
+### JSON Path Pattern
+```ruby
+VALID_JSON_PATH_PATTERN = /\Avalue->>'[a-zA-Z0-9_]+'\z/
+```
+
+## Core Methods
+
+### Store Data
+```ruby
+ExtensionData.store(
+  extension_slug: "pushups",
+  account_app: current_app,
+  subscriber: current_subscriber,
+  data: { key: "daily_pushups", value: 25 }
+)
+```
+
+**Features:**
+- Accepts single record or array of records
+- Validates required `key` and `value` fields
+- Uses database transactions for consistency
+- Supports optional `created_at` timestamp
+
+### Query Data
+```ruby
+ExtensionData.run_query(
+  extension_slug: "pushups",
+  account_app: current_app,
+  key: "daily_pushups",
+  subscriber: current_subscriber,
+  filter: { gt: 20 },
+  aggregate: "sum",
+  group_by: "day"
+)
+```
+
+**Features:**
+- Advanced filtering with multiple conditions
+- Aggregation (sum, avg, max, min, count)
+- Grouping by various fields
+- JSON path queries for nested data
+- Sorting and limiting results
+
+### Delete Data
+```ruby
+ExtensionData.delete_by_query(
+  extension_slug: "pushups",
+  account_app: current_app,
+  subscriber: current_subscriber,
+  key: "daily_pushups",
+  tracked_id: "tracked_123",
+  filter: { before: "2024-01-01" }
+)
+```
+
+**Features:**
+- Delete by specific tracked_id
+- Delete with filters
+- Supports complex filter conditions
+
+## Query Capabilities
+
+### Filtering
+```ruby
+# Basic filters
+filter: { eq: 25 }
+filter: { gt: 20, lt: 30 }
+filter: { contains: "protein" }
+
+# Date filters
+filter: { after: "2024-01-01", before: "2024-12-31" }
+
+# JSON path filters
+filter: { on: "value->>'protein'", gt: 20 }
+```
+
+### Aggregation
+```ruby
+# Simple aggregation
+aggregate: "sum"
+aggregate: "avg"
+aggregate: "count"
+
+# Field-specific aggregation
+aggregate: { type: "sum", on: "value->>'protein'" }
+```
+
+### Grouping
+```ruby
+# Standard grouping
+group_by: "day"
+group_by: "subscriber_id"
+group_by: "key"
+group_by: "value"
+
+# JSON path grouping
+group_by: "value->>'protein'"
+group_by: "value->>'category'"
+```
+
+### Ordering
+```ruby
+# Simple ordering
+order: "ASC"
+order: "DESC"
+
+# Field-specific ordering
+order: { by: "created_at", dir: "DESC" }
+order: { by: "value", dir: "ASC" }
+```
+
+## JSON Path Support
+
+The model supports PostgreSQL JSON path queries for nested data:
+
+### Valid Patterns
+```ruby
+# Basic field access
+"value->>'protein'"
+"value->>'carbs'"
+"value->>'category'"
+
+# Pattern validation
+VALID_JSON_PATH_PATTERN = /\Avalue->>'[a-zA-Z0-9_]+'\z/
+```
+
+### Usage Examples
+```ruby
+# Filter by nested field
+filter: { on: "value->>'protein'", gt: 20 }
+
+# Aggregate nested field
+aggregate: { type: "sum", on: "value->>'protein'" }
+
+# Group by nested field
+group_by: "value->>'category'"
+```
+
+## Response Format
+
+### Basic Record
+```ruby
+{
+  key: "2024-01-01",
+  value: 25.5
+}
+```
+
+### With Member Information
+```ruby
+{
+  key: "123",
+  value: 25.5,
+  member: {
+    id: 123,
+    name: "John Doe",
+    email: "john@example.com"
+  }
+}
+```
+
+### With Additional Fields
+```ruby
+{
+  key: "2024-01-01",
+  value: 25.5,
+  id: "tracked_123",
+  created_at: "2024-01-01T12:00:00Z"
+}
+```
+
+## Error Handling
+
+### Custom Exceptions
+```ruby
+InvalidDataError = Class.new(StandardError)
+```
+
+### Common Error Scenarios
+- Missing required fields (`key`, `value`)
+- Invalid JSON path syntax
+- Unsupported aggregation types
+- Database constraint violations
+- Invalid filter operators
+
+## Performance Considerations
+
+### Indexing
+- Primary key on `id`
+- Index on `(extension_slug, key, account_app_id)`
+- Index on `(subscriber_id, tracked_at)`
+- Index on `tracked_at` for date filtering
+
+### Query Optimization
+- Uses database transactions for consistency
+- Leverages PostgreSQL JSON operators
+- Implements proper eager loading for associations
+- Limits results to prevent memory issues
+
+## Integration with Controller
+
+The model is used by [extension_data_controller.rb](mdc:extension_data_controller.rb):
+
+```ruby
+# Index action
+results = ExtensionData.run_query(**args)
+
+# Create action
+ExtensionData.store(**args)
+
+# Destroy action
+ExtensionData.delete_by_query(**args)
+
+# Update action
+extension_data.update!(value: params[:value])
+```
+
+## Usage in Extensions
+
+Extensions use this model through the API endpoints:
+
+```javascript
+// Store data
+await fetch('/extension_data/pushups', {
+  method: 'POST',
+  body: JSON.stringify({
+    data: { key: 'daily_pushups', value: 25 }
+  })
+})
+
+// Query data
+const response = await fetch('/extension_data/pushups?key=daily_pushups&aggregate=sum&group_by=day')
+```
