@@ -1,0 +1,40 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Extension Entry Points
+
+All extensions must follow the standard entry point pattern for proper mounting/unmounting.
+
+## Standard Entry Point Pattern
+Entry points are TypeScript files that export `{ mount, unmount }` functions:
+
+```typescript
+import MainComponent from './MainComponent.vue'
+import { createMountPair } from './lib/mount-manager'
+
+export const { mount, unmount } = createMountPair(MainComponent)
+```
+
+## Examples
+- [src/auth-button/src/auth-button.ts](mdc:src/auth-button/src/auth-button.ts) - Auth button entry
+- [src/macro-tracker/src/macro-tracker.ts](mdc:src/macro-tracker/src/macro-tracker.ts) - Macro tracker entry
+- [src/pushups/src/pushups.ts](mdc:src/pushups/src/pushups.ts) - Pushups entry
+- [src/reviews/src/reviews.ts](mdc:src/reviews/src/reviews.ts) - Reviews entry
+
+## Votes Extension (Multiple Entry Points)
+The votes extension has multiple entry points:
+- [src/votes/src/single-vote.ts](mdc:src/votes/src/single-vote.ts)
+- [src/votes/src/multi-vote.ts](mdc:src/votes/src/multi-vote.ts)
+- [src/votes/src/pie-chart.ts](mdc:src/votes/src/pie-chart.ts)
+- [src/votes/src/fan-rating.ts](mdc:src/votes/src/fan-rating.ts)
+
+## Mount Manager
+All extensions use the same mount manager pattern from [src/pushups/src/lib/mount-manager.ts](mdc:src/pushups/src/lib/mount-manager.ts).
+
+## Common Issues
+- Entry point file must match manifest.json entrypoints
+- Must import from './lib/mount-manager' (not '@/lib/mount-manager')
+- Must export exactly `{ mount, unmount }`
+- Entry point filename should match extension name

@@ -1,0 +1,48 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Vite Configuration Patterns
+
+All extensions use similar Vite configurations with extension-specific customization.
+
+## Standard Vite Config Pattern
+```javascript
+const outDir = path.resolve(__dirname, '../../dist', 'extension-name')
+
+export default defineConfig({
+  base: '/extension-name/',
+  plugins: [vue(), copyManifestPlugin],
+  build: {
+    lib: {
+      entry: {
+        'extension-name': fileURLToPath(new URL('./src/extension-name.ts', import.meta.url)),
+      },
+      formats: ['es'],
+      fileName: (format, entryName) => `${entryName}.es.js`,
+    },
+    outDir,
+  }
+})
+```
+
+## Examples
+- [src/auth-button/vite.config.js](mdc:src/auth-button/vite.config.js) - Uses main.js entry point
+- [src/macro-tracker/vite.config.js](mdc:src/macro-tracker/vite.config.js) - Standard pattern
+- [src/pushups/vite.config.js](mdc:src/pushups/vite.config.js) - Standard pattern
+- [src/reviews/vite.config.js](mdc:src/reviews/vite.config.js) - Standard pattern
+- [src/votes/vite.config.js](mdc:src/votes/vite.config.js) - Multiple entry points
+
+## Key Configuration Elements
+- **Base path**: Must match extension name (`/extension-name/`)
+- **Output directory**: `../../dist/extension-name`
+- **Entry points**: Must match actual .ts files in src/
+- **Manifest copy**: Automatically copies manifest.json to output
+- **HTTPS support**: Uses localhost certificates for development
+
+## Common Issues
+- Entry point file must exist in src/ directory
+- Extension name in base path must match folder name
+- Output directory must use extension name
+- All extensions use port 5173 for development server

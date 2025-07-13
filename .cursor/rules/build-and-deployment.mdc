@@ -1,0 +1,68 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Build and Deployment Patterns
+
+All extensions follow the same build and deployment patterns.
+
+## Build Scripts
+Each extension has standard npm scripts in [package.json](mdc:package.json):
+```json
+{
+  "scripts": {
+    "dev": "vite",
+    "dev:http": "vite --mode http", 
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}
+```
+
+## Global Build Script
+The main build script is [scripts/build.sh](mdc:scripts/build.sh) which:
+- Builds all extensions or specified extensions
+- Runs npm install in each extension directory
+- Cleans output directories before building
+- Validates extension structure
+
+## Build Output
+All extensions output to `dist/{extension-name}/`:
+- Compiled JavaScript files (.es.js)
+- Copied manifest.json
+- CSS files (if any)
+
+## Development Server
+- All extensions use port 5173
+- HTTPS enabled with localhost certificates
+- CORS enabled for all origins
+- HTTP-only mode available with `--mode http`
+
+## Validation
+Use [scripts/validate-extensions.js](mdc:scripts/validate-extensions.js) to check:
+- Required files exist
+- Package.json has build script
+- Manifest.json has correct entrypoints
+- Extension structure is valid
+
+## Common Build Commands
+```bash
+# Build all extensions
+./scripts/build.sh
+
+# Build specific extension
+./scripts/build.sh pushups
+
+# Build multiple extensions
+./scripts/build.sh auth-button votes
+
+# Serve built extensions
+npm run serve
+```
+
+## Common Issues
+- Must run npm install in each extension directory
+- Build output goes to dist/{extension-name}/
+- Manifest.json is automatically copied during build
+- All extensions use the same Vite configuration pattern

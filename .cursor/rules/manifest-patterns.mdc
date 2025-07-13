@@ -1,0 +1,53 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Extension Manifest Patterns
+
+All extensions require a manifest.json file that defines metadata and entry points.
+
+## Standard Manifest Pattern
+```json
+{
+  "entrypoints": ["extension-name"],
+  "styles": "extension-name.css",
+  "name": "Extension Name",
+  "description": "Description of the extension",
+  "version": "1.0.0",
+  "author": "Fitter",
+  "icon": "https://fitterapp.app/favicon.ico",
+  "permissions": []
+}
+```
+
+## Examples
+- [src/auth-button/manifest.json](mdc:src/auth-button/manifest.json) - Auth button manifest
+- [src/macro-tracker/manifest.json](mdc:src/macro-tracker/manifest.json) - Macro tracker manifest
+- [src/pushups/manifest.json](mdc:src/pushups/manifest.json) - Pushups manifest
+- [src/reviews/manifest.json](mdc:src/reviews/manifest.json) - Reviews manifest
+- [src/votes/manifest.json](mdc:src/votes/manifest.json) - Multiple entry points
+
+## Votes Extension (Multiple Entry Points)
+The votes extension has multiple entry points in its manifest:
+```json
+{
+  "entrypoints": ["single-vote", "multi-vote", "pie-chart", "fan-rating"]
+}
+```
+
+## Key Manifest Elements
+- **entrypoints**: Must match actual .ts files in src/
+- **styles**: References CSS file (usually extension-name.css)
+- **name**: Human-readable extension name
+- **description**: Brief description of functionality
+- **version**: Semantic versioning
+- **author**: Always "Fitter"
+- **icon**: Always "https://fitterapp.app/favicon.ico"
+- **permissions**: Array of required permissions (usually empty)
+
+## Common Issues
+- Entrypoints must match actual TypeScript files
+- Extension name in entrypoints must match folder name
+- Manifest.json is automatically copied to dist/ during build
+- All extensions use the same author and icon

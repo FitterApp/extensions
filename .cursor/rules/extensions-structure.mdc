@@ -1,0 +1,45 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Extensions Project Structure
+
+This is a multi-extension Vue.js project where each extension in `src/` is independent and follows consistent patterns.
+
+## Project Layout
+- Root: [package.json](mdc:package.json) - Global dependencies and scripts
+- Extensions: [src/](mdc:src/) - Each subdirectory is an independent extension
+- Build output: [dist/](mdc:dist/) - Compiled extensions
+- Scripts: [scripts/](mdc:scripts/) - Build and validation utilities
+
+## Extension Structure Pattern
+Each extension follows this structure:
+```
+extension-name/
+├── src/
+│   ├── {extension-name}.vue          # Main Vue component
+│   ├── {extension-name}.ts           # Entry point (exports mount/unmount)
+│   ├── lib/
+│   │   └── mount-manager.ts         # Standard mount manager
+│   ├── assets/
+│   │   ├── main.css                 # Main styles
+│   │   └── base.css                 # Base styles
+│   └── components/                  # Vue components
+├── manifest.json                    # Extension metadata
+├── package.json                     # Dependencies
+└── vite.config.js                   # Build config
+```
+
+## Key Files to Check
+- [src/auth-button/](mdc:src/auth-button/) - Login button extension
+- [src/macro-tracker/](mdc:src/macro-tracker/) - Macro tracking extension  
+- [src/pushups/](mdc:src/pushups/) - Pushup challenge extension
+- [src/reviews/](mdc:src/reviews/) - Reviews extension
+- [src/votes/](mdc:src/votes/) - Voting extensions (multiple entry points)
+
+## Common Patterns
+- Entry points always export `{ mount, unmount }` using `createMountPair`
+- Vite configs use extension name in base path and output directory
+- CSS files go in `src/assets/main.css` and `src/assets/base.css`
+- All extensions use Vue 3 + Vite + TypeScript
