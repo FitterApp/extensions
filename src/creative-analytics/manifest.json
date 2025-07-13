@@ -1,0 +1,12 @@
+{
+  "entrypoints": [
+    "creative-analytics"
+  ],
+  "styles": "creative-analytics.css",
+  "name": "Creative Portfolio Analytics",
+  "description": "Advanced analytics for creative professionals tracking projects, skills, and performance metrics",
+  "version": "1.0.0",
+  "author": "Fitter",
+  "icon": "https://fitterapp.app/favicon.ico",
+  "permissions": []
+} 
