@@ -1,0 +1,59 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Creating a New Extension from template-vue (with Multiple Components/Entrypoints)
+
+To create a new extension, copy the `template-vue` folder (found in `templates/extension-template/`) and update the following:
+
+## 1. Rename the Folder
+- Copy `template-vue` and rename it to your extension's name (e.g., `my-extension`).
+
+## 2. Update Filenames and Imports
+- Rename all files and references from `template-vue` to your extension's name.
+- For **multiple entrypoints/components**:
+  - Add a `.vue` file for each component in `src/` (e.g., `ComponentA.vue`, `ComponentB.vue`).
+  - Add a `.ts` entrypoint file for each component (e.g., `component-a.ts`, `component-b.ts`).
+  - Each entrypoint file should import and mount its corresponding Vue component, using the standard mount/unmount pattern.
+
+## 3. Update manifest.json
+- `entrypoints`: List all entrypoint names (e.g., `["component-a", "component-b"]`). Each must have a corresponding `.ts` file in `src/`.
+- `styles`, `name`, `description`, `version`: Update as needed for your extension.
+
+## 4. Update vite.config.js
+- `base`: Set to `/<your-extension-name>/`.
+- `outDir`: Set to `../../dist/<your-extension-name>`.
+- `entry`: For multiple entrypoints, add each entry (e.g., `'component-a': fileURLToPath(new URL('./src/component-a.ts', import.meta.url)), 'component-b': fileURLToPath(new URL('./src/component-b.ts', import.meta.url))`).
+
+## 5. Update package.json
+- `name`, `description`, and `main`: Update to match your extension and main entrypoint.
+
+## 6. Update index.html
+- Update script and style references to match your main entrypoint (e.g., `component-a.es.js`, `component-a.css`).
+- For multiple entrypoints, you can:
+  - Create multiple HTML files (e.g., `component-a.html`, `component-b.html`), each loading its respective JS/CSS.
+  - Or, use a single HTML file and dynamically load the desired entrypoint.
+
+## 7. Add/Update Components and Entrypoints
+- For each entrypoint:
+  - Add a `.vue` file for the component UI/logic.
+  - Add a `.ts` file as the entrypoint, mounting the component.
+  - Example for `component-a.ts`:
+    ```ts
+    import { createApp } from 'vue'
+    import ComponentA from './ComponentA.vue'
+    let app = null
+    export function mount(el) { app = createApp(ComponentA); app.mount(el) }
+    export function unmount() { if (app) { app.unmount(); app = null } }
+    ```
+
+## 8. Update README.md
+- Update instructions and description for your new extension.
+
+## Notes
+- All entrypoints listed in `manifest.json` must have a corresponding `.ts` file in `src/`.
+- Each entrypoint can mount a different Vue component and have its own logic.
+- You can add as many entrypoints/components as needed for your extension's features.
+- Keep `author`, `icon`, and `permissions` as defaults unless needed.
+
