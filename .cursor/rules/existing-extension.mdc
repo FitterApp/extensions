@@ -1,0 +1,18 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Existing Extension Entrypoint and Component Addition
+
+When you are asked to add a new component or entrypoint to an existing extension, you must:
+
+- Always create a new entrypoint file (e.g., `new-feature.ts`) in the extension's `src/` directory.
+- Create a corresponding Vue component file (e.g., `NewFeature.vue`) and any required supporting files (such as assets, composables, or helpers) in appropriate subdirectories under `src/`.
+- Ensure the new entrypoint is registered in the extension's `manifest.json` if required by the platform.
+- Update `vite.config.js` in the extension directory if required to register the new entrypoint.
+- Do not merge new functionality into an existing entrypoint unless explicitly requested.
+- All new files should be placed relative to the extension's main directory (e.g., `src/extension-name/`).
+- Follow the established directory structure as seen in other extensions (see [macro-tracker](mdc:src/macro-tracker) for an example).
+
+This ensures each entrypoint is modular, maintainable, and can be independently mounted or referenced by the platform.

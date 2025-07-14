@@ -35,8 +35,10 @@ The SDK is injected into the extension as `mvt` and provides access to:
 - `await mvt.store.query(key, queryOptions)`
   - Advanced querying with filters, aggregation, grouping, ordering, and limits.
   - `queryOptions` matches the API's query parameter structure (see below).
+  - **Always returns an object with a `results` array (may be empty, but always present).**
 - `await mvt.store.queryMember(key, queryOptions)`
   - Like `query`, but only for the current user (sets `member_only=true`).
+  - **Always returns an object with a `results` array (may be empty, but always present).**
 
 #### Update Data
 - `await mvt.store.update(id, value)`
@@ -58,6 +60,8 @@ The SDK is injected into the extension as `mvt` and provides access to:
 ## Query Options Explained
 
 The following options can be used with `mvt.store.query` and `mvt.store.queryMember` to filter, aggregate, group, and sort your extension data. Each option is optional unless otherwise noted.
+
+> **Note:** Both `mvt.store.query` and `mvt.store.queryMember` always return an object with a `results` array. The array may be empty if no records match, but it is always present in the response.
 
 ### filter
 ```js
