@@ -33,6 +33,14 @@ This is the master guide for working with the multi-extension Vue.js project. Ea
 - **[common-issues.mdc](mdc:.cursor/rules/common-issues.mdc)** - Common problems and solutions
 - How to debug and fix extension issues
 
+### 🌐 **API Integration**
+- **[api-endpoints.mdc](mdc:.cursor/rules/api-endpoints.mdc)** - API endpoints and usage patterns
+- How to interact with the Extension Data API
+- **[api-query-parameters.mdc](mdc:.cursor/rules/api-query-parameters.mdc)** - Query parameters and filtering
+- Advanced querying, filtering, and aggregation options
+- **[api-data-model.mdc](mdc:.cursor/rules/api-data-model.mdc)** - Data model and database schema
+- Understanding the ExtensionData model and database structure
+
 ## When to Use Each Rule
 
 ### **Creating a New Extension**
@@ -41,6 +49,12 @@ This is the master guide for working with the multi-extension Vue.js project. Ea
 3. Configure [vite-configuration.mdc](mdc:.cursor/rules/vite-configuration.mdc) for build settings
 4. Create [manifest-patterns.mdc](mdc:.cursor/rules/manifest-patterns.mdc) for metadata
 5. Use [build-and-deployment.mdc](mdc:.cursor/rules/build-and-deployment.mdc) to build
+
+### **Integrating with API**
+1. Understand [api-data-model.mdc](mdc:.cursor/rules/api-data-model.mdc) for data structure
+2. Use [api-endpoints.mdc](mdc:.cursor/rules/api-endpoints.mdc) for basic API calls
+3. Leverage [api-query-parameters.mdc](mdc:.cursor/rules/api-query-parameters.mdc) for advanced queries
+4. Follow patterns for storing, querying, updating, and deleting data
 
 ### **Debugging Issues**
 1. Check [common-issues.mdc](mdc:.cursor/rules/common-issues.mdc) for known problems
@@ -62,6 +76,7 @@ This is the master guide for working with the multi-extension Vue.js project. Ea
 - **Consistency**: All extensions follow the same patterns and structure
 - **Modularity**: Changes to one extension don't affect others
 - **Standardization**: Common patterns across all extensions for maintainability
+- **API Integration**: Extensions can store and retrieve data through the Extension Data API
 
 ## Quick Reference
 
@@ -72,3 +87,6 @@ This is the master guide for working with the multi-extension Vue.js project. Ea
 | Fix entry point problems | [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc) | [manifest-patterns.mdc](mdc:.cursor/rules/manifest-patterns.mdc), [common-issues.mdc](mdc:.cursor/rules/common-issues.mdc) |
 | Update build config | [vite-configuration.mdc](mdc:.cursor/rules/vite-configuration.mdc) | [entry-points.mdc](mdc:.cursor/rules/entry-points.mdc), [build-and-deployment.mdc](mdc:.cursor/rules/build-and-deployment.mdc) |
 | Deploy extensions | [build-and-deployment.mdc](mdc:.cursor/rules/build-and-deployment.mdc) | [extensions-structure.mdc](mdc:.cursor/rules/extensions-structure.mdc), [common-issues.mdc](mdc:.cursor/rules/common-issues.mdc) |
+| **API Integration** | **[api-endpoints.mdc](mdc:.cursor/rules/api-endpoints.mdc)** | **[api-data-model.mdc](mdc:.cursor/rules/api-data-model.mdc)**, **[api-query-parameters.mdc](mdc:.cursor/rules/api-query-parameters.mdc)** |
+| **Store/Query Data** | **[api-data-model.mdc](mdc:.cursor/rules/api-data-model.mdc)** | **[api-endpoints.mdc](mdc:.cursor/rules/api-endpoints.mdc)**, **[api-query-parameters.mdc](mdc:.cursor/rules/api-query-parameters.mdc)** |
+| **Advanced Queries** | **[api-query-parameters.mdc](mdc:.cursor/rules/api-query-parameters.mdc)** | **[api-data-model.mdc](mdc:.cursor/rules/api-data-model.mdc)**, **[api-endpoints.mdc](mdc:.cursor/rules/api-endpoints.mdc)** |
