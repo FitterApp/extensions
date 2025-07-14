@@ -1,0 +1,10 @@
+{
+  "entrypoints": ["vue-extension"],
+  "styles": "vue-extension.css",
+  "name": "Vue Extension Template",
+  "description": "A template extension for Vue projects. Replace this with your extension's description.",
+  "version": "1.0.0",
+  "author": "Fitter",
+  "icon": "https://fitterapp.app/favicon.ico",
+  "permissions": []
+} 
