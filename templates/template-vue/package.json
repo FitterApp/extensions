@@ -1,0 +1,19 @@
+{
+  "name": "template-vue",
+  "version": "1.0.0",
+  "description": "A template Vue extension. Replace with your extension's description.",
+  "main": "src/template-vue.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "author": "Fitter",
+  "license": "MIT",
+  "dependencies": {
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "vite": "^4.0.0",
+    "@vitejs/plugin-vue": "^4.0.0"
+  }
+} 
