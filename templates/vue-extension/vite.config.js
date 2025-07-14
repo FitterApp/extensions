@@ -1,13 +1,33 @@
+import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import fs from 'node:fs'
+import path from 'node:path'
 
 const outDir = path.resolve(__dirname, '../../dist', 'vue-extension')
 
-export default defineConfig({
-  base: '/vue-extension/', // Change to your extension name
-  plugins: [vue()],
+// https://vite.dev/config/
+export default defineConfig(({ command, mode }) => {
+  // Check if we want HTTP-only mode based on command or mode
+  const isHttpOnly = mode === 'http'
+  
+  return {
+  base: '/vue-extension/',
+  plugins: [
+    vue(),
+    {
+      name: 'copy-manifest',
+      closeBundle() {
+        const manifestPath = path.resolve(__dirname, 'manifest.json')
+        fs.copyFileSync(manifestPath, path.join(outDir, 'manifest.json'))
+      }
+    }
+  ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    },
+  },
   build: {
     lib: {
       entry: {
@@ -17,5 +37,21 @@ export default defineConfig({
       fileName: (format, entryName) => `${entryName}.es.js`,
     },
     outDir,
+  },
+
+  server: {
+    port: 5173,
+    host: true, // Listen on all addresses
+    cors: true, // Enable CORS for all origins
+    ...(isHttpOnly ? {} : {
+      https: {
+        key: fs.readFileSync('../../localhost+2-key.pem'),
+        cert: fs.readFileSync('../../localhost+2.pem'),
+      },
+    }),
+  },
+
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('production'),
   }
-}) 
+}})

@@ -5,6 +5,7 @@
   "main": "src/vue-extension.ts",
   "scripts": {
     "dev": "vite",
+    "dev:http": "vite --mode http",
     "build": "vite build"
   },
   "author": "Fitter",
@@ -16,4 +17,4 @@
     "vite": "^4.0.0",
     "@vitejs/plugin-vue": "^4.0.0"
   }
-} 
+}

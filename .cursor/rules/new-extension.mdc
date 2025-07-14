@@ -11,6 +11,7 @@ To create a new extension, generate all required files using the structure and c
 - Create a new folder named after your extension (e.g., `my-extension`).
 
 ## 2. Generate Required Files
+- Dont change content of file unless you have to rename or moved files or folders related to it
 - For each file in `templates/vue-extension`, generate a corresponding file with correct names and content for your extension:
   - `manifest.json`: List all entrypoints, set name, description, and version.
   - `package.json`: Set name, description, main entrypoint, and scripts.
@@ -47,4 +48,7 @@ To create a new extension, generate all required files using the structure and c
 - Each entrypoint can mount a different Vue component and have its own logic.
 - You can add as many entrypoints/components as needed for your extension's features.
 - Only copy from templates if explicitly requested.
+
+# Reference Rule for Previous Extensions
+- When learning from or referencing previous extensions, only use the macro-tracker extension in src/macro-tracker as an example. Do not reference or read from other extensions in the src folder for this purpose.
 
