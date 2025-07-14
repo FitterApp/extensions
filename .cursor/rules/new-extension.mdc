@@ -3,52 +3,32 @@ description:
 globs: 
 alwaysApply: true
 ---
-# Creating a New Extension (using src/templates/vue-extension as a Template)
+# Creating a New Extension (Automated Workflow)
 
-To create a new extension, generate all required files using the structure and content of `templates/vue-extension` as a template. Files should be generated (not copied) and tailored to the extension’s name and requested functionality. Do not copy or rename template files unless explicitly requested.
+## 1. Format the Extension Name
+- Always format the extension name in lowercase.
+- Use dashes (-) to separate words (e.g., random-cats, macro-tracker).
 
-## 1. Create the Extension Folder
-- Create a new folder named after your extension (e.g., `my-extension`).
+## 2. Generate the Extension
+- Run the following script to scaffold the extension:
+  ```
+    scripts/create-extension.sh <new-extension-name>
+  ```
+  Replace `<new-extension-name>` with the formatted name from step 1.
+- The script will copy the template, rename files, and update references automatically.
+- If the extension already exists, the script will abort.
 
-## 2. Generate Required Files
-- Dont change content of file unless you have to rename or moved files or folders related to it
-- For each file in `templates/vue-extension`, generate a corresponding file with correct names and content for your extension:
-  - `manifest.json`: List all entrypoints, set name, description, and version.
-  - `package.json`: Set name, description, main entrypoint, and scripts.
-  - `vite.config.js`: Configure base, outDir, and entrypoints.
-  - `index.html`: Reference the main entrypoint’s JS and CSS.
-  - `src/`: Add a `.vue` file for each component and a `.ts` entrypoint for each.
-  - Add minimal assets as needed (e.g., CSS, icons).
+## 3. Implement the Requested Functionality
+- After the extension is generated, update the main component (the .vue file in src/) to implement the specific functionality requested by the user.
+- Make any additional code or configuration changes needed to fulfill the user’s requirements.
 
-## 3. Entry Points and Components
-- For each entrypoint:
-  - Add a `.vue` file for the component UI/logic.
-  - Add a `.ts` file as the entrypoint, mounting the component.
-  - Example for `clock.ts`:
-    ```ts
-    import { createApp } from 'vue'
-    import Clock from './Clock.vue'
-    let app = null
-    export function mount(el) { app = createApp(Clock); app.mount(el) }
-    export function unmount() { if (app) { app.unmount(); app = null } }
-    ```
-
-## 4. Configuration
+## 4. Final Steps
 - Ensure all references, imports, and configs are correct and tailored to the new extension.
-- Use the latest best practices for structure and configuration.
-
-## 5. README.md
-- Add a README with instructions and a description for your new extension.
-
-## 6. Install Dependencies
-- Run `npm install` in your new extension folder before building or serving.
+- Run `npm install` in the new extension folder before building or serving.
+- Add a README with instructions and a description for your new extension if not already present.
 
 ## Notes
 - All entrypoints listed in `manifest.json` must have a corresponding `.ts` file in `src/`.
 - Each entrypoint can mount a different Vue component and have its own logic.
-- You can add as many entrypoints/components as needed for your extension's features.
 - Only copy from templates if explicitly requested.
-
-# Reference Rule for Previous Extensions
-- When learning from or referencing previous extensions, only use the macro-tracker extension in src/macro-tracker as an example. Do not reference or read from other extensions in the src folder for this purpose.
 
