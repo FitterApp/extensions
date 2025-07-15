@@ -124,13 +124,13 @@ const loadMeals = async () => {
   try {
     const data = await mvt.store.queryMember("meal", {
       filter: {
-        tracked_after: startDate.toISOString(),
-        tracked_before: endDate.toISOString()
+        after: startDate.toISOString(),
+        before: endDate.toISOString()
       }
     })
 
-    // Ensure tracked_id is included in each meal
-    meals.value = data.results.map(result => ({ ...result.value, tracked_id: result.tracked_id, created_at: result.created_at }))
+    // Ensure id is included in each meal
+    meals.value = data.results.map(result => ({ ...result.value, id: result.id, created_at: result.created_at }))
     calculateDailyTotals()
   } catch (error) {
     console.error('Error loading meals:', error)
@@ -208,7 +208,7 @@ const openEditMealModal = (meal) => {
 }
 
 const updateMeal = async () => {
-  if (!editMeal.value || !editMeal.value.tracked_id) return
+  if (!editMeal.value || !editMeal.value.id) return
   try {
     isLoading.value = true
     const updatedMeal = {
@@ -217,7 +217,7 @@ const updateMeal = async () => {
       fat: parseFloat(editMealForm.value.fat) || 0,
       carbs: parseFloat(editMealForm.value.carbs) || 0,
     }
-    await mvt.store.update(editMeal.value.tracked_id, updatedMeal)
+    await mvt.store.update(editMeal.value.id, updatedMeal)
     showEditMealModal.value = false
     editMeal.value = null
     await loadMeals()
@@ -238,18 +238,18 @@ const confirmDelete = async () => {
   deleteConfirmData.value = { type: null, mealId: null, mealName: '', callback: null }
 }
 
-// Delete meal by tracked_id
-const deleteMeal = async (tracked_id, mealName) => {
+// Delete meal by id
+const deleteMeal = async (id, mealName) => {
   deleteConfirmData.value = {
     type: 'single',
-    mealId: tracked_id,
+    mealId: id,
     mealName,
     callback: async () => {
       try {
         isLoading.value = true
-        await mvt.store.delete('meal', { tracked_id })
+        await mvt.store.delete('meal', { id })
         await loadMeals()
-        mvt.events.emit('MEAL_DELETED', tracked_id)
+        mvt.events.emit('MEAL_DELETED', id)
       } catch (error) {
         console.error('Error deleting meal:', error)
       } finally {
@@ -273,8 +273,8 @@ const deleteMealsForDay = async () => {
         endDate.setHours(23, 59, 59, 999)
         await mvt.store.delete('meal', {
           filter: {
-            tracked_after: startDate.toISOString(),
-            tracked_before: endDate.toISOString()
+            after: startDate.toISOString(),
+            before: endDate.toISOString()
           }
         })
         await loadMeals()
@@ -412,7 +412,7 @@ watch(isLoggedIn, async (loggedIn) => {
         No meals logged yet for today.
       </div>
       <div v-else class="meals-list">
-        <div v-for="meal in meals" :key="meal.tracked_id" class="meal-item">
+        <div v-for="meal in meals" :key="meal.id" class="meal-item">
           <div class="meal-info">
             <h4>{{ getMealName(meal) }}</h4>
             <div class="meal-macros">
@@ -423,7 +423,7 @@ watch(isLoggedIn, async (loggedIn) => {
           </div>
           <div style="display: flex; gap: 0.5rem; align-items: center;">
             <button @click="openEditMealModal(meal)" class="btn btn-secondary" title="Edit meal" style="padding: 0 10px;">✎</button>
-            <button @click="deleteMeal(meal.tracked_id, meal.name)" class="delete-btn" title="Delete meal">
+            <button @click="deleteMeal(meal.id, meal.name)" class="delete-btn" title="Delete meal">
               ×
             </button>
           </div>
