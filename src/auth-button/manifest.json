@@ -1,6 +1,7 @@
 {
   "entrypoints": [
-    "auth-button"
+    "auth-button",
+    "auth-blog"
   ],
   "styles": "auth-button.css",
   "name": "Login Button",

@@ -43,6 +43,7 @@ export default defineConfig(({ command, mode }) => {
       lib: {
         entry: {
           'auth-button': fileURLToPath(new URL('./src/auth-button.ts', import.meta.url)),
+          'auth-blog': fileURLToPath(new URL('./src/auth-blog.ts', import.meta.url)),
         },
         formats: ['es'],
         fileName: (format, entryName) => `${entryName}.es.js`,
