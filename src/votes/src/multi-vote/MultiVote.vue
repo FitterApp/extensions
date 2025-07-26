@@ -25,8 +25,7 @@ const submitVotes = async () => {
   try {
     isLoading.value = true
     // Submit all selected votes
-    await mvt.store.setMany(selectedPlayers.value.map(playerUuid => ({
-      key: 'votes',
+    await mvt.store.setMany('votes', selectedPlayers.value.map(playerUuid => ({
       value: playerUuid
     })))
 
