@@ -217,7 +217,7 @@ const updateMeal = async () => {
       fat: parseFloat(editMealForm.value.fat) || 0,
       carbs: parseFloat(editMealForm.value.carbs) || 0,
     }
-    await mvt.store.update(editMeal.value.id, updatedMeal)
+    await mvt.store.update("meal", editMeal.value.id, updatedMeal)
     showEditMealModal.value = false
     editMeal.value = null
     await loadMeals()
