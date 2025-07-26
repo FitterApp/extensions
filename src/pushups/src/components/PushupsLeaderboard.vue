@@ -31,17 +31,17 @@ const loadLeaderboardData = async () => {
 const currentUserRank = computed(() => {
   if (!isLoggedIn.value || !user.value) return null
 
-  const userEntry = leaderboardData.value.find(item => item.member?.user_id === user.value.id)
+  const userEntry = leaderboardData.value.find(item => item.member?.uuid === user.value.uuid)
 
   if (!userEntry) return null
 
-  return leaderboardData.value.findIndex(item => item.member && item.member.user_id === user.value.id) + 1
+  return leaderboardData.value.findIndex(item => item.member && item.member.uuid === user.value.uuid) + 1
 })
 
 const currentUserTotal = computed(() => {
   if (!isLoggedIn.value || !user.value) return 0
   
-  const userEntry = leaderboardData.value.find(item => item.member && item.member.user_id === user.value.id)
+  const userEntry = leaderboardData.value.find(item => item.member && item.member.uuid === user.value.uuid)
   
   return userEntry ? userEntry.value : 0
 })
@@ -103,7 +103,7 @@ onMounted(() => {
           :key="entry.member?.user_id || index"
           class="leaderboard-row"
           :class="{ 
-            'current-user': isLoggedIn && entry.member?.user_id === user?.id,
+            'current-user': isLoggedIn && entry.member?.uuid === user?.uuid,
             'top-3': index < 3
           }"
         >
